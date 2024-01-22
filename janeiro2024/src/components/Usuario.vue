@@ -1,24 +1,22 @@
 <script setup>
-import { reactive } from "vue";
+import { ref } from "vue";
 
 
-/*
 const nome = ref("Wellington dos santos silva");
-const nascimento = ref(0);
+const dataNascimento = ref(0);
 const idade = ref(19);
+const idadeFutura = ref(0);
 //para acessar o valor de uma variavel reativa, basta usar o .value
 console.log(idade.value);
 //para alterar o valor de uma variavel reativa, basta usar o .value
-*/
 
-//usando objeto reativo
-const pessoa = reactive({
-  nome: "",
-  dataNascimento: 0,
-  idade: 0
-  
-});
-//para alterar basta apenas usar pessoa.nome, ou pessoa.dataNascimento
+function calcularIdade() {
+  idade.value = 2023 - dataNascimento.value;
+}
+
+const calcularIdadeFutura = (valor) => {
+  idadeFutura.value =  idade.value + valor
+};
 
 </script>
 
@@ -26,18 +24,22 @@ const pessoa = reactive({
   <div>
     <form class="formulario">
       <label for="nome">Nome</label><br />
-      <input type="text" id="nome" name="nome" v-model="pessoa.nome" /><br />
+      <input type="text" id="nome" name="nome" v-model="nome" /><br />
       <label for="dataNascimento">Nascimento</label><br />
       <input
         type="number"
         id="dataNascimento"
         name="dataNascimento"
-        v-model="pessoa.dataNascimento"
+        v-model="dataNascimento"
       /><br />
     </form>
   </div>
 
-  <p style="text-align: center">{{ pessoa.nome }} nasceu em {{ pessoa.dataNascimento }}</p>
+  <button class="botao" v-on:click="calcularIdade()">Calcular idade</button>
+  <button class="botao" v-on:click="calcularIdadeFutura(2)">Calcular idade futura</button>
+
+  <p style="text-align: center">{{ nome }} nasceu em {{ dataNascimento }} tem {{ idade }} anos</p>
+  <p>Daqui a dois anos terá {{ idadeFutura }}</p>
 </template>
 
 <style scoped>
