@@ -1,13 +1,44 @@
 <script setup>
-import { ref } from "vue";
+import {
+  ref,
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+} from "vue";
 
+onBeforeMount(() => {
+  console.log("onBeforeMount");
+});
+
+onMounted(() => {
+  console.log("onMounted");
+});
+
+onBeforeUpdate(() => {
+  console.log("onBeforeUpdate");
+});
+
+onUpdated(() => {
+  console.log("onUpdated");
+});
+
+onBeforeUnmount(() => {
+  console.log("onBeforeUnmount");
+});
+
+onUnmounted(() => {
+  console.log("onUnmounted");
+});
 
 const nome = ref("Wellington dos santos silva");
 const dataNascimento = ref(0);
 const idade = ref(19);
 const idadeFutura = ref(0);
 //para acessar o valor de uma variavel reativa, basta usar o .value
-console.log(idade.value);
+//console.log(idade.value);
 //para alterar o valor de uma variavel reativa, basta usar o .value
 
 function calcularIdade() {
@@ -15,9 +46,8 @@ function calcularIdade() {
 }
 
 const calcularIdadeFutura = (valor) => {
-  idadeFutura.value =  idade.value + valor
+  idadeFutura.value = idade.value + valor;
 };
-
 </script>
 
 <template>
@@ -36,9 +66,13 @@ const calcularIdadeFutura = (valor) => {
   </div>
 
   <button class="botao" v-on:click="calcularIdade()">Calcular idade</button>
-  <button class="botao" v-on:click="calcularIdadeFutura(2)">Calcular idade futura</button>
+  <button class="botao" v-on:click="calcularIdadeFutura(2)">
+    Calcular idade futura
+  </button>
 
-  <p style="text-align: center">{{ nome }} nasceu em {{ dataNascimento }} tem {{ idade }} anos</p>
+  <p style="text-align: center">
+    {{ nome }} nasceu em {{ dataNascimento }} tem {{ idade }} anos
+  </p>
   <p>Daqui a dois anos terá {{ idadeFutura }}</p>
 </template>
 

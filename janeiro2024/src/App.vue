@@ -1,7 +1,7 @@
 <script setup>
 import Cabecalho from "./components/Cabecalho.vue";
 import Usuario from "./components/Usuario.vue";
-
+import Avatar from "./components/Avatar.vue"; 
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import Usuario from "./components/Usuario.vue";
   <header>
     <Cabecalho />
   </header>
-  <Usuario />
+  <Avatar></Avatar>
   <main></main>
 
  
