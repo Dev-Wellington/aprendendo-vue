@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, computed ,onMounted } from "vue";
 
 //usando reactive
 /*
@@ -21,27 +21,45 @@ onMounted(() => {
 //usando ref
 //pessoa recebe um objeto vazio
 const pessoa = ref({});
+const codigoUsuario = ref(0);
 
 onMounted(async () => {
-  pessoa.value = await buscarInformacoes();
+  pessoa.value = await buscarInformacoes(1);
 });
 
-const buscarInformacoes = async () => {
-  const req = await fetch("https://reqres.in/api/users/2");
+
+const habilitarBotao = computed(()=> codigoUsuario.value > 0)
+
+const nomeCompleto = computed(() => 
+  `${pessoa.value.first_name} ${pessoa.value.last_name}`
+);
+
+const pesquisarInformacoes = async () => {
+  pessoa.value = await buscarInformacoes(codigoUsuario.value);
+};
+
+const buscarInformacoes = async (id) => {
+  const req = await fetch(`https://reqres.in/api/users/${id}`);
   const json = await req.json();
   return json.data;
 };
 
+
 </script>
 <template>
+  <form class="formulario" @submit.prevent>
+    <label for="codigoUsuario"></label><br />
+    <input
+      type="text"
+      id="codigoUsuario"
+      name="codigoUsuario"
+      v-model="codigoUsuario"
+    /><br />
+    <button v-bind:disabled="!habilitarBotao" v-on:click="pesquisarInformacoes" class="botao">Buscar</button>
+  </form>
   <div class="perfil">
-    <img
-      v-bind:src="pessoa.avatar"
-      alt="perfil"
-      height="250px"
-      width="250px"
-    />
-    <strong>{{ pessoa.first_name + pessoa.last_name }}</strong>
+    <img v-bind:src="pessoa.avatar" alt="perfil"  />
+    <strong>{{ nomeCompleto }}</strong>
     <span>{{ pessoa.email }}</span>
   </div>
 </template>
@@ -57,5 +75,25 @@ const buscarInformacoes = async () => {
 span {
   font-size: 1.5rem;
   font-family: Geneva, Tahoma, sans-serif;
+}
+.formulario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.botao {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+  font-size: 1.5rem;
+  font-family: Geneva, Tahoma, sans-serif;
+  cursor: pointer;
+}
+.botao[disabled]{
+  background-color: #ccc;
+  color: #fff;
+  cursor: not-allowed;
 }
 </style>
